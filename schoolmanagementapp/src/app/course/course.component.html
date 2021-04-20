@@ -1,0 +1,142 @@
+<br />
+<div class="container" id="addNew">
+        <input type="search" (ngModelChange)="searchCourse(key.value)" #key="ngModel" ngModel
+         name="key" id="searchName" class="form-control mr-sm-2" placeholder="Search Course..." required>
+     <br />
+    <button type="button" class="btn btn-primary" (click)="onOpenModal(null, 'add')" role="button">+ Add Course</button>
+</div>
+<br />
+<div class="container" id="main-container">
+    <div class="row">
+      <div *ngFor="let course of course" class="col-md-6 col-xl-3">
+         <div class="card m-b-30">
+            <div class="card-body row">
+               <div class="col-6">
+                  <a href=""><img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="" class="img-fluid rounded-circle w-60"></a>
+               </div>
+               <div class="col-6 card-title align-self-center mb-0">
+                  <h5>{{course?.courseName}}</h5>
+                  <p class="m-0">{{course?.courseCode}}</p>
+                  <p class="m-0">{{course?.courseDescription}}</p>
+               </div>
+            </div>
+            <ul class="list-group list-group-flush">
+               <li class="list-group-item"><i class="fa fa-envelope float-right"></i>Instructor : {{course?.courseInstructor}}</li>
+            </ul>
+            <div class="card-body">
+               <div class="float-right btn-group btn-group-sm">
+                  <a (click)="onOpenModal(course, 'edit')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
+                  <a (click)="onOpenModal(course, 'delete')" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><i class="fa fa-times"></i></a>
+               </div>
+            </div>
+         </div>
+      </div>
+    </div>
+  
+    <!-- Add Employee Modal -->
+  <div class="modal fade" id="addCourseModal" tabindex="-1" role="dialog" aria-labelledby="addCourseModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="addCourseModalLabel">Add Course</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <form #addForm="ngForm" (ngSubmit)="onAddCourse(addForm)">
+            <div class="form-group">
+               <label for="name">Course Name</label>
+               <input type="text" ngModel name="courseName" class="form-control" id="courseName" placeholder="courseName" required>
+            </div>
+            <div class="form-group">
+               <label for="courseCode">Course Code</label>
+               <input type="text" ngModel name="courseCode" class="form-control" id="courseCode" placeholder="courseCode" required>
+            </div>
+            <div class="form-group">
+               <label for="courseDescription">Course Description</label>
+               <input type="text" ngModel name="courseDescription" class="form-control" id="courseDescription" placeholder="courseDescription" required>
+            </div>
+            <div class="form-group">
+               <label for="courseInstructor">Course Instructor</label>
+               <input type="text" ngModel name="courseInstructor" class="form-control" id="courseInstructor" placeholder="courseInstructor" required>
+            </div>
+            <div class="modal-footer">
+               <button type="button" id="add-course-form" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary" >Save changes</button>
+            </div>
+            </form>
+         </div>
+      </div>
+    </div>
+    </div>
+  
+  <!-- Edit Modal -->
+  <div class="modal fade" id="updateCourseModal" tabindex="-1" role="dialog" aria-labelledby="courseEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="updateCourseModalLabel">Edit Course {{editCourse?.courseName}}</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+             <form #editForm="ngForm">
+                <div class="form-group">
+                   <label for="name">Course Name</label>
+                   <input type="text" ngModel="{{editCourse?.courseName}}" name="courseName" class="form-control" id="courseName" aria-describedby="emailHelp" placeholder="courseName">
+                </div>
+                <input type="hidden" ngModel="{{editCourse?.id}}" name="id" class="form-control" id="id" placeholder="Email">
+                <div class="form-group">
+                   <label for="courseCode">Student Classroom</label>
+                   <input type="courseCode" ngModel="{{editCourse?.courseCode}}" name="courseCode" class="form-control" id="courseCode" placeholder="courseCode">
+                </div>
+                <div class="form-group">
+                   <label for="courseDescription">Student Age</label>
+                   <input type="text" ngModel="{{editCourse?.courseDescription}}" name="courseDescription" class="form-control" id="courseDescription" placeholder="courseDescription">
+                </div>
+                <div class="form-group">
+                   <label for="courseInstructor">Student Gender</label>
+                   <input type="text" ngModel="{{editCourse?.courseInstructor}}" name="courseInstructor" class="form-control" id="courseInstructor" name="courseInstructor" placeholder="courseInstructor">
+                </div>
+  
+                <div class="modal-footer">
+                   <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                   <button (click)="onUpdateCourse(editForm.value)" data-dismiss="modal" class="btn btn-primary" >Save changes</button>
+                </div>
+             </form>
+          </div>
+       </div>
+    </div>
+  </div>
+  
+  <!-- Delete Modal -->
+  <div class="modal fade" id="deleteCourseModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="deleteModelLabel">Delete Student</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+             <p>Are you sure you want to delete student {{deleteCourse?.courseName}}?</p>
+             <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button (click)="onDeleteCourse(deleteCourse?.id)" class="btn btn-danger" data-dismiss="modal">Yes</button>
+             </div>
+          </div>
+       </div>
+    </div>
+  </div>
+  </div>
+  
+  <!-- Notification for no employees -->
+  <div *ngIf="course?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+  <div class="alert alert-info" role="alert">
+    <h4 class="alert-heading">NO Course!</h4>
+    <p>No Course were found.</p>
+  </div>
+  </div>

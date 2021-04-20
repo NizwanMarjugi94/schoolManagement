@@ -1,0 +1,25 @@
+
+
+<div class="container" id="main-container">
+    <h1>Course Registration</h1>
+<br />
+    <div class="row">
+         <div class="card m-b-30">
+            <div class="dropdown">
+                <form #addForm="ngForm" (ngSubmit)="onAddRegistration(addForm)">
+                <select class="btn btn-secondary dropdown-toggle" >
+                    <option value="default">Select Student</option>
+                    <option *ngFor="let students of student" ngModel name="studentId" class="form-control" id="studentId" placeholder="studentId" required [value]="students.studentId">{{students?.studentName}}</option>
+                </select>
+                <div class="divider"></div>
+                <select class="btn btn-secondary dropdown-toggle" >
+                    <option value="default">Select Course</option>
+                    <option *ngFor="let course of course" gModel name="courseCode" class="form-control" id="courseCode" placeholder="courseCode" required [value]="course.courseCode">{{course?.courseName}}</option>
+                </select>
+                <div class="divider"></div>
+                <button d="add-registration-form" type="submit" class="btn btn-primary" >Add Course</button>
+                </form>
+            </div>
+         </div>
+    </div>
+</div>
