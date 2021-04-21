@@ -3,6 +3,7 @@ package com.nizwan.management.schoolsystemservice.controller;
 import com.nizwan.management.schoolsystemservice.model.Course;
 import com.nizwan.management.schoolsystemservice.model.Registration;
 import com.nizwan.management.schoolsystemservice.service.RegistrationService;
+import com.nizwan.management.schoolsystemservice.vm.CourseRegistrationVM;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,11 +27,11 @@ public class registrationController {
 //        return new ResponseEntity<>(courses, HttpStatus.OK);
 //    }
 //
-//    @GetMapping("/find/{id}")
-//    public ResponseEntity<Course> getCourseById(@PathVariable("id") Long id) {
-//        Course course = courseService.findCourseById(id);
-//        return new ResponseEntity<>(course, HttpStatus.OK);
-//    }
+    @GetMapping("/findStudentByCourseCode/{courseCode}")
+    public ResponseEntity<CourseRegistrationVM> getStudentByCourseCode(@PathVariable("courseCode") String courseCode) {
+        CourseRegistrationVM courseRegistrationVM = registrationService.getStudentByCourseCode(courseCode);
+        return new ResponseEntity<>(courseRegistrationVM, HttpStatus.OK);
+    }
 
     @PostMapping("/addRegistration")
     public ResponseEntity<Registration> addRegistration(@RequestBody Registration registration){

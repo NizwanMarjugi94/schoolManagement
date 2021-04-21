@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Course } from './course';
 import { CourseService } from './course.service';
+import { CourseRegistration } from './courseregistration';
 
 @Component({
   selector: 'app-course',
@@ -17,12 +18,15 @@ export class CourseComponent implements OnInit {
   public  course: Course[];
   public editCourse: Course;
   public deleteCourse: Course;
+  public courseRegistration: CourseRegistration;
+  public viewCourseRegistration: Course;
+
 
   constructor (private courseService: CourseService){}
 
   ngOnInit(){
     this.getAllCourses();
-  }
+    }
   
   public getAllCourses():void {
     this.courseService.getAllCourses().subscribe(
@@ -31,6 +35,18 @@ export class CourseComponent implements OnInit {
       },
       (error: HttpErrorResponse) =>{
         alert(error.message);
+      }
+    );
+  }
+
+  public getStudentByCourseCode(courseCode: string):void {
+    this.courseService.getStudentByCourseCode(courseCode).subscribe(
+      (response: CourseRegistration) => {
+        this.courseRegistration = response;
+      },
+      (error: HttpErrorResponse) =>{
+        alert(error.message);
+        
       }
     );
   }
@@ -107,6 +123,10 @@ export class CourseComponent implements OnInit {
     if (mode === 'delete') {
       this.deleteCourse = courseModal;
       button.setAttribute('data-target', '#deleteCourseModal');
+    }
+    if (mode === 'view') {
+      this.viewCourseRegistration = courseModal;
+      button.setAttribute('data-target', '#viewCourseModal');
     }
     container.appendChild(button);
     button.click();

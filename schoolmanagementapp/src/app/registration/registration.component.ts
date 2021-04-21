@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Course } from '../course/course';
 import { Students } from '../student/students';
 import { Registration } from './registration';
@@ -15,6 +15,8 @@ import { RegistrationService } from './registration.service';
 export class RegistrationComponent implements OnInit {
   student: Students[];
   course: Course[];
+  addRegistration: Registration;
+
 
   constructor (private registrationService: RegistrationService){}
 
@@ -50,9 +52,7 @@ export class RegistrationComponent implements OnInit {
     document.getElementById('add-registration-form').click();
     this.registrationService.addRegistration(addForm.value).subscribe(
       (response: Registration) => {
-        console.log(response);
-        this.getAllCourses();
-        this.getAllStudents();
+        console.log('registration', response);
         addForm.reset();
       },
       (error: HttpErrorResponse) => {
@@ -60,6 +60,10 @@ export class RegistrationComponent implements OnInit {
         addForm.reset();
       }
     );
+  }
+
+  alert() {
+    window.alert('Successfully added');
   }
 
 }
